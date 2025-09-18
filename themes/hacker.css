@@ -1,0 +1,462 @@
+/* Hacker Theme - Retro Terminal Aesthetics */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #111111;
+  --bg-tertiary: #1a1a1a;
+  --text-primary: #00ff00;
+  --text-secondary: #00cc00;
+  --text-muted: #008800;
+  --text-error: #ff0000;
+  --text-warning: #ffff00;
+  --text-info: #00ffff;
+  --border-color: #333333;
+  --accent-color: #00ff00;
+  --accent-hover: #00cc00;
+  --code-bg: #000000;
+  --code-border: #333333;
+  --shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+  --font-mono: 'JetBrains Mono', 'Courier New', Courier, monospace;
+  --scan-line-height: 2px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-mono);
+  line-height: 1.6;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* CRT Screen Effect */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    transparent 50%, 
+    rgba(0, 255, 0, 0.03) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 1000;
+  animation: scanlines 0.1s linear infinite;
+}
+
+@keyframes scanlines {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
+}
+
+/* Flickering effect */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 255, 0, 0.01);
+  pointer-events: none;
+  z-index: 999;
+  animation: flicker 0.15s infinite linear alternate;
+}
+
+@keyframes flicker {
+  0% { opacity: 1; }
+  100% { opacity: 0.98; }
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* Full-width ASCII Art Header Container */
+.ascii-header-container {
+  width: 100%;
+  background: rgba(0, 255, 0, 0.02);
+  border-bottom: 2px solid var(--accent);
+  padding: 2rem 0;
+  margin-bottom: 0;
+  position: relative;
+}
+
+.ascii-header-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 255, 0, 0.02) 2px,
+    rgba(0, 255, 0, 0.02) 4px
+  );
+  pointer-events: none;
+}
+
+/* Dynamic ASCII Art Header */
+.ascii-header {
+  display: block;
+  white-space: pre;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.2;
+  color: var(--accent);
+  text-align: center;
+
+  letter-spacing: 0;
+  overflow-x: auto;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.ascii-header::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--accent), transparent, var(--accent));
+  border-radius: 8px;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+.ascii-header::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 255, 0, 0.03) 2px,
+    rgba(0, 255, 0, 0.03) 4px
+  );
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  position: relative;
+}
+
+h1 {
+  font-size: 1.8rem;
+  margin-top: 0;
+  margin-bottom: 2rem;
+  color: var(--text-primary);
+}
+
+
+
+h2 {
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+h2::before {
+  content: "[+] ";
+  color: var(--text-info);
+}
+
+h3 {
+  font-size: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+h3::before {
+  content: "$ ";
+  color: var(--text-warning);
+}
+
+h4::before {
+  content: "# ";
+  color: var(--text-muted);
+}
+
+p {
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+/* Links */
+a {
+  color: var(--text-info);
+  text-decoration: none;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+a::before {
+  content: "[";
+  color: var(--text-warning);
+}
+
+a::after {
+  content: "]";
+  color: var(--text-warning);
+}
+
+a:hover {
+  color: var(--text-primary);
+  animation: link-flicker 0.1s infinite;
+}
+
+@keyframes link-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+/* Lists */
+ul, ol {
+  margin-bottom: 1rem;
+  padding-left: 2rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+  position: relative;
+}
+
+ul li::before {
+  content: "▶ ";
+  color: var(--text-primary);
+  position: absolute;
+  left: -1.5rem;
+}
+
+ol li::marker {
+  color: var(--text-primary);
+  font-weight: bold;
+}
+
+/* Code */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background-color: var(--code-bg);
+  color: var(--text-primary);
+  padding: 0.2rem 0.4rem;
+  border: 1px solid var(--code-border);
+  border-radius: 2px;
+}
+
+pre {
+  background-color: var(--code-bg);
+  border: 2px solid var(--border-color);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  position: relative;
+}
+
+pre::before {
+  content: "";
+}
+
+pre::after {
+  content: "";
+}
+
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+  color: var(--text-primary);
+}
+
+/* Blockquotes */
+blockquote {
+  border-left: 4px solid var(--text-warning);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+  color: var(--text-secondary);
+  background-color: var(--bg-secondary);
+  padding: 1rem;
+  position: relative;
+}
+
+blockquote::before {
+  content: "⚠ WARNING: ";
+  color: var(--text-warning);
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  border: 2px solid var(--border-color);
+  background-color: var(--bg-secondary);
+}
+
+th, td {
+  padding: 0.75rem;
+  text-align: left;
+  border: 1px solid var(--border-color);
+  font-family: var(--font-mono);
+}
+
+th {
+  background-color: var(--bg-tertiary);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+th::before {
+  content: "│ ";
+  color: var(--text-warning);
+}
+
+td {
+  color: var(--text-secondary);
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid var(--border-color);
+  margin: 1rem 0;
+  filter: contrast(1.2) brightness(0.9);
+}
+
+/* Horizontal Rule */
+hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--text-primary), transparent);
+  margin: 2rem 0;
+  position: relative;
+}
+
+hr::before {
+  content: "═══════════════════════════════════════════════════════════════════";
+  display: block;
+  color: var(--text-muted);
+  text-align: center;
+  font-size: 0.8rem;
+  position: absolute;
+  top: -0.5rem;
+  left: 0;
+  right: 0;
+}
+
+/* Task Lists */
+input[type="checkbox"] {
+  margin-right: 0.5rem;
+  accent-color: var(--text-primary);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem 0.5rem;
+  }
+  
+  .container::before {
+    font-size: 6px;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+    padding: 0.75rem;
+  }
+  
+  h2 {
+    font-size: 1.25rem;
+  }
+  
+  pre::before,
+  pre::after {
+    font-size: 0.6rem;
+  }
+}
+
+/* Selection */
+::selection {
+  background-color: var(--text-primary);
+  color: var(--bg-primary);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Terminal cursor effect */
+.container::after {
+  content: "█";
+  color: var(--text-primary);
+  animation: cursor-blink 1s infinite;
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  font-size: 1rem;
+  z-index: 1001;
+}
+
+@keyframes cursor-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
